@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 import uuid
 from users.models import Follow
 
@@ -57,6 +55,3 @@ class Stream(models.Model):
                 for f in followers
             ]
             Stream.objects.bulk_create(streams)
-
-# Signal to auto-create stream records when post is created
-post_save.connect(Stream.add_post, sender=Post)

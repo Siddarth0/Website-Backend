@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.dispatch import receiver
-from django.db.models.signals import post_save
 import os
 from PIL import Image
 
@@ -27,16 +25,6 @@ class Profile(models.Model):
                     img.thumbnail(output_size)
                     img.save(img_path)
 
-# put in signals.py
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
-# 
 
 class Follow(models.Model):
     follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following')
