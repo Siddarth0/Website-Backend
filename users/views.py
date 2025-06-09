@@ -1,6 +1,6 @@
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, generics
 from .models import Profile, Follow
-from . serializers import ProfileSerializer, FollowSerializer, UserSerializer
+from . serializers import ProfileSerializer, FollowSerializer, RegisterSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from posts.permissions import IsOwnerOrReadOnly
 from django.contrib.auth.models import User
@@ -24,9 +24,6 @@ class FollowViewSet(viewsets.ModelViewSet):
         serializer.save(follower=self.request.user)
 
 
-class UserSearchViewSet(viewsets.ReadOnlyModelViewSet):
+class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['username']
+    serializer_class = RegisterSerializer

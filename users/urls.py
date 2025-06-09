@@ -1,8 +1,13 @@
 from rest_framework.routers import DefaultRouter
-from .views import ProfileViewSet, FollowViewSet, UserSearchViewSet
+from django.urls import path
+from .views import ProfileViewSet, FollowViewSet, UserSearchViewSet, RegisterView
 
 router = DefaultRouter()
 router.register(r'profiles', ProfileViewSet, basename='profile')
 router.register(r'follows', FollowViewSet, basename='follow')
-router.register(r'search', UserSearchViewSet, basename='user-search')
+
+urlpatterns = router.urls + [
+    path('register/', RegisterView.as_view(), name='register'),
+]
+
 urlpatterns = router.urls
